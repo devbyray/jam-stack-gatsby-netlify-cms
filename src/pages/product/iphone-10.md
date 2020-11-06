@@ -3,7 +3,7 @@ templateKey: product
 title: iPhone 10
 date: 2020-11-05T14:46:19.176Z
 description: 5G goes Pro. A14 Bionic rockets past every other smartphone chip.
-featuredimage: /img/overview.png
+featuredimage: /img/2020-11-05-031639511.jpg
 tags:
   - apple
 ---
