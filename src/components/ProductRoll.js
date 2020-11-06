@@ -1,12 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link, graphql, StaticQuery } from 'gatsby'
-import PreviewCompatibleImage from './PreviewCompatibleImage'
+import React from "react";
+import PropTypes from "prop-types";
+import { Link, graphql, StaticQuery } from "gatsby";
+import PreviewCompatibleImage from "./PreviewCompatibleImage";
 
-class BlogRoll extends React.Component {
+class ProductRoll extends React.Component {
   render() {
-    const { data } = this.props
-    const { edges: posts } = data.allMarkdownRemark
+    const { data } = this.props;
+    const { edges: posts } = data.allMarkdownRemark;
+
+    console.log("products: ", data);
 
     return (
       <div className="columns is-multiline">
@@ -14,9 +16,7 @@ class BlogRoll extends React.Component {
           posts.map(({ node: post }) => (
             <div className="is-parent column is-6" key={post.id}>
               <article
-                className={`blog-list-item tile is-child box notification ${
-                  post.frontmatter.featuredpost ? 'is-featured' : ''
-                }`}
+                className={`blog-list-item tile is-child box notification`}
               >
                 <header>
                   {post.frontmatter.featuredimage ? (
@@ -24,7 +24,7 @@ class BlogRoll extends React.Component {
                       <PreviewCompatibleImage
                         imageInfo={{
                           image: post.frontmatter.featuredimage,
-                          alt: `featured image thumbnail for post ${post.frontmatter.title}`,
+                          alt: `featured image thumbnail for post ${post.frontmatter.title}`
                         }}
                       />
                     </div>
@@ -54,29 +54,29 @@ class BlogRoll extends React.Component {
             </div>
           ))}
       </div>
-    )
+    );
   }
 }
 
-BlogRoll.propTypes = {
+ProductRoll.propTypes = {
   data: PropTypes.shape({
     allMarkdownRemark: PropTypes.shape({
-      edges: PropTypes.array,
-    }),
-  }),
-}
+      edges: PropTypes.array
+    })
+  })
+};
 
 export default () => (
   <StaticQuery
     query={graphql`
-      query BlogRollQuery {
+      query ProductRollQuery {
         allMarkdownRemark(
           sort: { order: DESC, fields: [frontmatter___date] }
-          filter: { frontmatter: { templateKey: { eq: "blog-post" } } }
+          filter: { frontmatter: { templateKey: { eq: "product" } } }
         ) {
           edges {
             node {
-              excerpt(pruneLength: 400)
+              excerpt(pruneLength: 200)
               id
               fields {
                 slug
@@ -85,20 +85,12 @@ export default () => (
                 title
                 templateKey
                 date(formatString: "MMMM DD, YYYY")
-                featuredpost
-                featuredimage {
-                  childImageSharp {
-                    fluid(maxWidth: 120, quality: 100) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
-                }
               }
             }
           }
         }
       }
     `}
-    render={(data, count) => <BlogRoll data={data} count={count} />}
+    render={(data, count) => <ProductRoll data={data} count={count} />}
   />
-)
+);
